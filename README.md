@@ -2,7 +2,7 @@
 
 [简体中文 README](README_zh-cmn-Hans.md)
 
-Greasy Fork: <https://greasyfork.org/zh-CN/scripts/421252-bilibili-live-effective-rate>
+Greasy Fork: <https://greasyfork.org/zh-CN/scripts/441322>
 
 ## Screenshot
 

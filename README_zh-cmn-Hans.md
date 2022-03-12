@@ -2,7 +2,7 @@
 
 优化 B站-创作中心-弹幕管理 的排版
 
-Greasy Fork: <https://greasyfork.org/zh-CN/scripts/421252-bilibili-live-effective-rate>
+Greasy Fork: <https://greasyfork.org/zh-CN/scripts/441322>
 
 ## 截图
 
