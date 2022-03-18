@@ -14,7 +14,6 @@
 // @author              catscarlet
 // @match               *://member.bilibili.com/platform*
 // @icon                https://www.google.com/s2/favicons?sz=64&domain=bilibili.com
-// @require             https://code.jquery.com/jquery-latest.js
 // @run-at              document-end
 // @grant               none
 // @license             GNU AGPLv3
@@ -27,7 +26,7 @@ This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
 (function() {
     'use strict';
 
-    $(function() {
+    (function() {
 
         console.log('inter-active-danmu-patch');
 
