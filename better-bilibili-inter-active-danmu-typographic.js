@@ -10,7 +10,7 @@
 // @description:zh-TW   最佳化 B站-創作中心-彈幕管理 的排版
 // @description:en      better bilibili inter active danmu typographic
 // @description:ja      bilibiliオーサリングセンターdanmu管理のレイアウトを最適化する（Translated from Google Translate）
-// @version             0.1
+// @version             0.1.1
 // @author              catscarlet
 // @match               *://member.bilibili.com/platform*
 // @icon                https://www.google.com/s2/favicons?sz=64&domain=bilibili.com
