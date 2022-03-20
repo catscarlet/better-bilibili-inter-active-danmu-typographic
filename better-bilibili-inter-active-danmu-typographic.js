@@ -26,7 +26,7 @@ This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
 (function() {
     'use strict';
 
-    (function() {
+
 
         console.log('inter-active-danmu-patch');
 
@@ -145,8 +145,7 @@ This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
 
             findTableObserver();
         }
-    });
-})();
+    })();
 
 /*
 This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
