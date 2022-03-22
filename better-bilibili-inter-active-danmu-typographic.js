@@ -26,126 +26,139 @@ This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
 (function() {
     'use strict';
 
+    console.log('inter-active-danmu-patch');
 
+    let oldHref = document.location.href;
 
-        console.log('inter-active-danmu-patch');
+    checkUrl(document.location);
+    urlObserver();
 
-        let oldHref = document.location.href;
+    function urlObserver() {
+        let bodyList = document.querySelector('body');
 
-        checkUrl(document.location);
-        urlObserver();
-
-        function urlObserver() {
-            let bodyList = document.querySelector('body');
-
-            let observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (oldHref != document.location.href) {
-                        oldHref = document.location.href;
-                        checkUrl(document.location);
-                    }
-                });
+        let observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (oldHref != document.location.href) {
+                    oldHref = document.location.href;
+                    checkUrl(document.location);
+                }
             });
+        });
 
-            let config = {
-                childList: true,
-                subtree: true,
-            };
+        let config = {
+            childList: true,
+            subtree: true,
+        };
 
-            observer.observe(bodyList, config);
-        }
+        observer.observe(bodyList, config);
+    }
 
-        /*
+    /*
         window.onpopstate = function(event) {
             //checkUrl(document.location);
         };
         */
 
-        function checkUrl(url) {
-            let urlRe = new RegExp('https://member\.bilibili\.com/platform/inter\-active/danmu');
-            let result = urlRe.test(url);
+    function checkUrl(url) {
+        let urlRe = new RegExp('https://member\.bilibili\.com/platform/inter\-active/danmu');
+        let result = urlRe.test(url);
 
-            if (result) {
-                findContentBody();
+        if (result) {
+            findContentBody();
+        }
+    }
+
+    function findContentBody() {
+
+
+        function checkBody(changes, observer) {
+            if (document.querySelector('.cc-content-body')) {
+                observer.disconnect();
+                action();
             }
         }
 
-        function findContentBody() {
-            function checkBody(changes, observer) {
-                if (document.querySelector('.cc-content-body')) {
-                    observer.disconnect();
-                    action();
-                }
-            }
+        (new MutationObserver(checkBody)).observe(document, {
+            childList: true,
+            subtree: true,
+        });
 
-            (new MutationObserver(checkBody)).observe(document, {childList: true, subtree: true});
-        }
+    }
 
-        function action() {
-            changeStyles();
-            findTableObserver();
-        }
+    function action() {
 
-        function changeStyles() {
-            let content = document.querySelector('.cc-content-body');
+        changeStyles();
+        findTableObserver();
+    }
 
-            //content.style.width = '100%';
+    function changeStyles() {
+        let content = document.querySelector('.cc-content-body');
 
-            let danmuSlot = document.querySelectorAll('.bcc-table__align-left tr th')[3];
-            let upvoteSlot = document.querySelectorAll('.bcc-table__align-left tr th')[4];
-            let attrSlot = document.querySelectorAll('.bcc-table__align-left tr th')[5];
-            let timeSlot = document.querySelectorAll('.bcc-table__align-left tr th')[6];
+        //content.style.width = '100%';
 
-            danmuSlot.style.minWidth = danmuSlot.style.width;
+        let danmuSlot = document.querySelectorAll('.bcc-table__align-left tr th')[3];
+        let upvoteSlot = document.querySelectorAll('.bcc-table__align-left tr th')[4];
+        let attrSlot = document.querySelectorAll('.bcc-table__align-left tr th')[5];
+        let timeSlot = document.querySelectorAll('.bcc-table__align-left tr th')[6];
 
-            danmuSlot.style.width = 'fit-content';
-            upvoteSlot.style.width = '5em';
-            attrSlot.style.width = '5em';
-            //timeSlot.style.width = '12em';
-        }
+        danmuSlot.style.minWidth = danmuSlot.style.width;
+        danmuSlot.style.width = 'fit-content';
+        upvoteSlot.style.width = '5em';
+        attrSlot.style.width = '5em';
+        //timeSlot.style.width = '12em';
+    }
 
-        function findTableObserver() {
-            const targetNode = document.querySelector('.cc-content-body');
+    function findTableObserver() {
+        const targetNode = document.querySelector('.cc-content-body');
 
-            const config = {attributes: false, childList: true, subtree: true};
+        const config = {
+            attributes: false,
+            childList: true,
+            subtree: true,
+        };
 
-            const findTable = function(changes, observer) {
-                if (document.querySelector('.bcc-table__align-left')) {
-                    observer.disconnect();
-                    addTitleToTitle();
-                }
-            };
-
-            const observer = new MutationObserver(findTable);
-
-            observer.observe(targetNode, config);
-        }
-
-        function titleObserver() {
-            const targetNode = document.querySelector('.bcc-table__align-left tbody');
-
-            const config = {attributes: false, childList: true, subtree: true, characterData: true};
-
-            const callback = function(changes, observer) {
+        const findTable = function(changes, observer) {
+            if (document.querySelector('.bcc-table__align-left')) {
                 observer.disconnect();
                 addTitleToTitle();
-            };
+            }
+        };
 
-            const observer = new MutationObserver(callback);
+        const observer = new MutationObserver(findTable);
 
-            observer.observe(targetNode, config);
-        }
+        observer.observe(targetNode, config);
+    }
 
-        function addTitleToTitle() {
-            let list = document.querySelectorAll('.video-title');
-            list.forEach((item, i) => {
-                let text = item.querySelector('.no-hover').textContent;
-                item.title = text;
-            });
+    function titleObserver() {
+        const targetNode = document.querySelector('.bcc-table__align-left tbody');
 
-            findTableObserver();
-        }
-    })();
+        const config = {
+            attributes: false,
+            childList: true,
+            subtree: true,
+            characterData: true,
+        };
+
+        const callback = function(changes, observer) {
+            observer.disconnect();
+            addTitleToTitle();
+        };
+
+        const observer = new MutationObserver(callback);
+
+        observer.observe(targetNode, config);
+    }
+
+    function addTitleToTitle() {
+        let list = document.querySelectorAll('.video-title');
+        list.forEach((item, i) => {
+            let text = item.querySelector('.no-hover').textContent;
+            item.title = text;
+        });
+
+        findTableObserver();
+    }
+})();
 
 /*
 This project is licensed under **GNU AFFERO GENERAL PUBLIC LICENSE Version 3**
